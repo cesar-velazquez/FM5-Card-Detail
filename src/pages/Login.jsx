@@ -82,8 +82,17 @@ const Login = () => {
                                     className='outline-none w-[100px] border-2 p-3 rounded-xl '
                                     type="number"
                                     placeholder='e.g 123' />
-                            </div>
+                            </div>                            
                         </div>
+                        <div className='bg-verydarkviolet text-white 
+                        flex justify-center w-[300px] p-2 rounded-md  '>
+                                <input 
+                                className=''
+                                type="submit" 
+                                name="" 
+                                id="" 
+                                value={"Confirm"} />
+                            </div>
                     </form>
                 </section>
             </section>
