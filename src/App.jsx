@@ -12,7 +12,8 @@ function App() {
 
 
   return (
-    <>
+    <main className='sm:p-2 sm:max-w-[1200px]  sm:border-2 sm:border-gray-900/20 
+    sm:m-auto sm:my-4 sm:rounded-2xl sm:z-10  '>
       <Routes>
 
         <Route element={<PublicRoutes userLogged={userLogged} />}>
@@ -34,7 +35,7 @@ function App() {
         </Route>
 
       </Routes>
-    </>
+    </main>
   )
 }
 
