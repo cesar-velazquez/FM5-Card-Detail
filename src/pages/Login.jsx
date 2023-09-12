@@ -45,7 +45,7 @@ const Login = ({setUserLogged, setEmailValue}) => {
                     sm:translate-x-[10px] sm:translate-y-[500px]
                     md:translate-x-[150px] md:translate-y-[500px] ' >
                             <img className=' w-[75%] max-w-[300px] sm:w-[250px] ' src="/images/bg-card-back.png" alt="Card Back" />
-                            <p className='absolute text-red-600 top-[3.2rem] right-7 text-xs  
+                            <p className='absolute text-white top-[3.2rem] right-7 text-xs  
                         sm:top-[3.7rem]'>000</p>
                         </div>
                         {/*                     sm:top-48 sm:translate-x-1/5 
@@ -57,7 +57,7 @@ const Login = ({setUserLogged, setEmailValue}) => {
                             <img className='w-[75%] max-w-[300px] sm:w-[250px]   ' src="/images/bg-card-front.png" alt="Card Back" />
                             <p className='text-white absolute bottom-8 left-6 font-Grotes text-[14px]  ' >{cardNumber}</p>
                             <p className='text-white absolute bottom-2 left-6 font-Grotes text-[11px]  ' >{nameInput}</p>
-                            <p className='text-white absolute bottom-2 right-[85px] font-Grotes text-[10px]  ' >00/00</p>
+                            <p className='text-white absolute bottom-2 right-[85px] font-Grotes text-[10px] sm:right-4  ' >00/00</p>
                             <div className='bg-transparent border-2 absolute top-[1.4rem] left-16
                 w-[20px] aspect-square rounded-full
                 ' >
