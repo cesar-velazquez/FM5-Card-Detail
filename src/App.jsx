@@ -6,11 +6,14 @@ import Welcome from './pages/Welcome'
 import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
 import Page404 from './pages/Page404'
+// export const nameInput = nameInput;
+
 
 function App() {
   const [userLogged, setUserLogged] = useState(false)
   const [nameInput, setNameInput] = useState("")
   const [cardNumber, setCardNumber] = useState("")
+
 
   return (
     <main className='sm:p-2 sm:max-w-[1200px]  sm:border-2 sm:border-gray-900/20 
@@ -29,8 +32,8 @@ function App() {
           />
         </Route>
 
-        <Route element={<PrivateRoute userLogged={userLogged} 
-        nameInput={nameInput} cardNumber={cardNumber} />}  >
+        <Route element={<PrivateRoute userLogged={userLogged}
+          nameInput={nameInput} cardNumber={cardNumber} />}  >
           <Route path='/' element={<Welcome
             setUserLogged={setUserLogged}
             nameInput={nameInput}
@@ -44,7 +47,8 @@ function App() {
 
       </Routes>
     </main>
-  )
+  )  
 }
+
 
 export default App

@@ -1,39 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { GenerateMM, Generatecvc, Generatemmyy, handleChangeInput } from '../components/Validation/validations';
 
 const Login = ({ setUserLogged, setNameInput, setCardNumber, cardNumber, nameInput }) => {
-    // const { register, handleSubmit, formState: {errors} } = useForm();
-    // const [nameInput, setNameInput] = useState("")
-    // const [cardNumber, setCardNumber] = useState("")
-
+    
     const handleSub = (e) => {
-        e.preventDefault()
-        const inputElement = e.target;
+        e.preventDefault()        
         const errorForm = document.getElementById('errorForm')
-        const validationName = new RegExp('^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{5,30}$');  
-        const validateCardNumber = new RegExp('/^[0-9\s]*$/');      
+        const validationName = new RegExp('^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{5,30}$');          
         const name = e.target.name.value;
-        const cardNumber = e.target.cardNumber.value;       
-        
+        const cardNumber = e.target.cardNumber.value;               
         if (validationName.test(name) && cardNumber.length== 20 ) {
             setUserLogged(true)            
         } else {
             errorForm.textContent = "Fill in all the fields"            
-        }
-    }
-
-    const handleChangeInput = (e) => {
-        const errorName = document.getElementById('errorName')
-        setNameInput(e.target.value)
-        const inputElement = e.target
-        if (e.target.value.trim() === '') {
-            inputElement.style.borderColor = '#aaa6a6'
-        } else if (!inputElement.checkValidity()) {
-            inputElement.style.borderColor = '#fa3600'; // Cambia a rojo si es inválido
-            errorName.textContent = "Wrong Format, Only letters and minimum 5"
-        } else {
-            inputElement.style.borderColor = '#3ded0b'; // Cambia a verde si es válido
-            errorName.textContent = ""
         }
     }
 
@@ -57,50 +37,7 @@ const Login = ({ setUserLogged, setNameInput, setCardNumber, cardNumber, nameInp
         const formattedValue = inputValue.replace(/\s/g, "").replace(/(.{4})/g, "$1 ");
         setCardNumber(formattedValue);
     }
-
-    const GenerateMM = (e) => {
-        const inputElement = e.target        
-        const errormm = document.getElementById('errormm')
-        const valuemm = inputElement.value
-        if (valuemm.trim() === '') {
-            inputElement.style.borderColor = "#aaa6a6"
-        } else if (/^[0-9\s]*$/.test(valuemm) && valuemm.length == 2) {
-            inputElement.style.borderColor = "#3ded0b";
-            errormm.textContent = ""
-        } else {
-            inputElement.style.borderColor = "#fa3600";
-            errormm.textContent = "Wrong Format. Numbers only, minimum 2"
-        }
-    }
-
-    const Generatemmyy = (e) => {
-        const inputElement = e.target
-        const erroryy = document.getElementById('erroryy')
-        const valuemmyy = inputElement.value
-        if (valuemmyy.trim() === '') {
-            inputElement.style.borderColor = "#aaa6a6"            
-        } else if (/^[0-9\s]*$/.test(valuemmyy) && valuemmyy.length == 2) {
-            inputElement.style.borderColor = "#3ded0b";
-            erroryy.textContent = ""
-        } else {
-            inputElement.style.borderColor = "#fa3600";
-            erroryy.textContent = "Wrong Format. Numbers only the last 2 digits"
-        }
-    }
-    const Generatecvc = (e) => {
-        const inputElement = e.target
-        const errorcvc = document.getElementById('errorcvc')
-        const valuecvc = inputElement.value        
-        if (valuecvc.trim() === '') {
-            inputElement.style.borderColor = "#aaa6a6"            
-        } else if (/^[0-9\s]*$/.test(valuecvc) && valuecvc.length == 3) {
-            inputElement.style.borderColor = "#3ded0b";
-            errorcvc.textContent = ""            
-        } else {
-            inputElement.style.borderColor = "#fa3600";
-            errorcvc.textContent = "Wrong Format. Numbers only 3 digits"
-        }
-    }
+    
     useEffect(() => {
         const input = document.getElementById('cardNumber')
         input.addEventListener("input", GenerateSpace)
@@ -176,7 +113,7 @@ const Login = ({ setUserLogged, setNameInput, setCardNumber, cardNumber, nameInp
                             required
                             name='name'
                             pattern='^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{5,30}$'
-                            onChange={handleChangeInput}
+                            onChange={(e) => handleChangeInput(e, setNameInput)}
                             value={nameInput}
                             className='border-2 outline-none p-3 rounded-xl '
                             type="text"
