@@ -3,8 +3,8 @@ import React from "react";
 const CircleIcons = () => {
     return (
         <svg 
-        width="80" 
-        height="80" 
+        width="100" 
+        height="100" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg">
             <circle 
@@ -25,8 +25,8 @@ const CircleIcons = () => {
                     y2="91.507"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stop-color="#6348FE" />
-                    <stop offset="1" stop-color="#610595" />
+                    <stop stopColor="#6348FE" />
+                    <stop offset="1" stopColor="#610595" />
                 </linearGradient>
             </defs>
         </svg>

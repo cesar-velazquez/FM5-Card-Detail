@@ -1,33 +1,114 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 
-
-
-const Login = ({setUserLogged, setEmailValue}) => {
+const Login = ({ setUserLogged, setNameInput, setCardNumber, cardNumber, nameInput }) => {
     // const { register, handleSubmit, formState: {errors} } = useForm();
-    const [nameInput, setNameInput] = useState("")
-    const [cardNumber, setCardNumber] = useState("")    
+    // const [nameInput, setNameInput] = useState("")
+    // const [cardNumber, setCardNumber] = useState("")
 
-    const handleSub = (e) =>{
+    const handleSub = (e) => {
         e.preventDefault()
-        if (e.target.value) {
+        const inputElement = e.target;
+        const errorForm = document.getElementById('errorForm')
+        const validationName = new RegExp('^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{5,30}$');  
+        const validateCardNumber = new RegExp('/^[0-9\s]*$/');      
+        const name = e.target.name.value;
+        const cardNumber = e.target.cardNumber.value;       
+        
+        if (validationName.test(name) && cardNumber.length== 20 ) {
             setUserLogged(true)            
-        }else{
-            alert("ingresa un nombre valido")                        
+        } else {
+            errorForm.textContent = "Fill in all the fields"            
         }
     }
 
     const handleChangeInput = (e) => {
-        setNameInput(e.target.value)        
+        const errorName = document.getElementById('errorName')
+        setNameInput(e.target.value)
+        const inputElement = e.target
+        if (e.target.value.trim() === '') {
+            inputElement.style.borderColor = '#aaa6a6'
+        } else if (!inputElement.checkValidity()) {
+            inputElement.style.borderColor = '#fa3600'; // Cambia a rojo si es inválido
+            errorName.textContent = "Wrong Format, Only letters and minimum 5"
+        } else {
+            inputElement.style.borderColor = '#3ded0b'; // Cambia a verde si es válido
+            errorName.textContent = ""
+        }
     }
-    const handleCardNumber = (e) => {
+
+    const GenerateSpace = (e) => {
+        const inputElement = e.target
+        const inputValue = e.target.value.replace(/\s/g, "");
+        const errorMessage = document.getElementById("errors")
+
         setCardNumber(e.target.value)
+
+        if (inputValue.trim() === '') {
+            inputElement.style.borderColor = "#aaa6a6"
+        } else if (/^[0-9\s]*$/.test(inputValue) && inputValue.length == 16) {
+            inputElement.style.borderColor = "#3ded0b";
+            errorMessage.textContent = ""
+        } else {
+            inputElement.style.borderColor = "#fa3600";
+            errorMessage.textContent = "Wrong Format, numbers only"
+        }
+
+        const formattedValue = inputValue.replace(/\s/g, "").replace(/(.{4})/g, "$1 ");
+        setCardNumber(formattedValue);
     }
 
-    // const submit = (data) =>{
-    //     handleSub(data)
-    // }
+    const GenerateMM = (e) => {
+        const inputElement = e.target        
+        const errormm = document.getElementById('errormm')
+        const valuemm = inputElement.value
+        if (valuemm.trim() === '') {
+            inputElement.style.borderColor = "#aaa6a6"
+        } else if (/^[0-9\s]*$/.test(valuemm) && valuemm.length == 2) {
+            inputElement.style.borderColor = "#3ded0b";
+            errormm.textContent = ""
+        } else {
+            inputElement.style.borderColor = "#fa3600";
+            errormm.textContent = "Wrong Format. Numbers only, minimum 2"
+        }
+    }
 
+    const Generatemmyy = (e) => {
+        const inputElement = e.target
+        const erroryy = document.getElementById('erroryy')
+        const valuemmyy = inputElement.value
+        if (valuemmyy.trim() === '') {
+            inputElement.style.borderColor = "#aaa6a6"            
+        } else if (/^[0-9\s]*$/.test(valuemmyy) && valuemmyy.length == 2) {
+            inputElement.style.borderColor = "#3ded0b";
+            erroryy.textContent = ""
+        } else {
+            inputElement.style.borderColor = "#fa3600";
+            erroryy.textContent = "Wrong Format. Numbers only the last 2 digits"
+        }
+    }
+    const Generatecvc = (e) => {
+        const inputElement = e.target
+        const errorcvc = document.getElementById('errorcvc')
+        const valuecvc = inputElement.value        
+        if (valuecvc.trim() === '') {
+            inputElement.style.borderColor = "#aaa6a6"            
+        } else if (/^[0-9\s]*$/.test(valuecvc) && valuecvc.length == 3) {
+            inputElement.style.borderColor = "#3ded0b";
+            errorcvc.textContent = ""            
+        } else {
+            inputElement.style.borderColor = "#fa3600";
+            errorcvc.textContent = "Wrong Format. Numbers only 3 digits"
+        }
+    }
+    useEffect(() => {
+        const input = document.getElementById('cardNumber')
+        input.addEventListener("input", GenerateSpace)
+
+        return () => {
+            input.removeEventListener("input", GenerateSpace)
+        }
+    }, [])
     return (
         <main className=' ' >
             <section className='grid gap-20 sm:gap-0 sm:max-w-[1000px]  '>
@@ -61,8 +142,8 @@ const Login = ({setUserLogged, setEmailValue}) => {
                             <div className='bg-transparent border-2 absolute top-[1.4rem] left-16
                 w-[20px] aspect-square rounded-full
                 ' >
+                            </div>
 
-                </div>
                             <div className='bg-white absolute top-4 left-6
                 w-[30px] aspect-square rounded-full
                 '></div>
@@ -80,69 +161,89 @@ const Login = ({setUserLogged, setEmailValue}) => {
             sm:-translate-y-[600px] '>
                     {/* sm:absolute sm:flex sm:justify-center sm:top-0 sm:flex-col
                 sm:left-[50%] sm:bottom-0 sm:w-[min(100%,_450px)] */}
-                    <form 
-                    onSubmit={handleSub}
-                    className='grid gap-3 p-4 w-[min(100%,_350px)] 
+                
+                    <form
+                        id='formCard'
+                        onSubmit={handleSub}
+                        className='grid gap-3 p-4 w-[min(100%,_350px)] 
                 aspect-square m-auto 
                 sm:border-2 sm:ml-[1%] sm:rounded-2xl               
                 md:mr-[39%] md:m-auto' >
-                        <label className='font-bold text-purple-800 ' >CARDHOLDER NAME</label>
-                        <input                        
-                        onChange={handleChangeInput}
-                            className='outline-none border-2 p-3 rounded-xl '
-                            type="text"                            
+                        <label
+                            htmlFor='name'
+                            className=' font-bold text-purple-800 ' >CARDHOLDER NAME</label>
+                        <input
+                            required
+                            name='name'
+                            pattern='^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{5,30}$'
+                            onChange={handleChangeInput}
+                            value={nameInput}
+                            className='border-2 outline-none p-3 rounded-xl '
+                            type="text"
                             placeholder='e.g. Jane Appleseed'
                             id='name'
-                            // {...register("name", {
-                            //     required: {
-                            //         value: true,
-                            //         message: "Valid Name Required"
-                            //     }
-                            // })}
-                            />
-                            {/* {errors.name && <p className='text-red-600 text-center  font-semibold rounded-3xl w-[200px] bg-white/40 ' >{errors.name.message}</p>} */}
-                        <label className='font-bold text-purple-800 ' >CARD NUMBER</label>
+                        />
+                        <p id='errorName' className='text-red-600 mt-1 text-xs ' ></p>
+
+                        <label className=' font-bold text-purple-800 ' >CARD NUMBER</label>
                         <input
-                        onChange={handleCardNumber}
-                        id='cardNumber'
-                            className='outline-none border-2 p-3 rounded-xl '
+                            onChange={GenerateSpace}
+                            value={cardNumber}
+                            id='cardNumber'
+                            className='border-2 outline-none p-3 rounded-xl '
                             type="text"
-                            placeholder='e.g. 1234 5678 9123 0000' />
+                            placeholder='e.g. 1234 5678 9123 0000'
+                        />
+                        <p id='errors' className='text-red-600 mt-2 text-xs ' ></p>
 
                         <div className='flex gap-4 ' >
                             <div className='flex flex-col' >
-                                <label className='font-bold text-purple-800 ' >EXP. DATE</label>
+                                <label className='font-bold text-center text-purple-800 
+                                text-[14px]
+                                ' >EXP. DATE</label>
                                 <input
-                                    className='outline-none w-[70px] border-2 p-3 rounded-xl '
+                                    className='text-center outline-none w-[70px] border-2 p-3 rounded-xl '
+                                    onChange={GenerateMM}
                                     type="text"
+                                    id='mm'
                                     placeholder='MM' />
+                                <p id='errormm' className='text-red-600 mt-2 text-xs ' ></p>
                             </div>
 
                             <div className='flex flex-col' >
-                                <label className='font-bold  text-purple-800 ' >(MM/YY)</label>
+                                <label className='font-bold text-center 
+                                text-[14px] text-purple-800 ' >(MM/YY)</label>
                                 <input
-                                    className='outline-none w-[70px] border-2 p-3 rounded-xl '
-                                    type="number"
+                                    onChange={Generatemmyy}
+                                    id='mmyy'
+                                    className='text-center outline-none w-[70px] border-2 p-3 rounded-xl '
+                                    type="text"
                                     placeholder='YY' />
+                                <p id='erroryy' className='text-red-600 mt-2 text-xs ' ></p>
                             </div>
 
                             <div className='flex flex-col' >
-                                <label className='font-bold text-purple-800 ' >CVC</label>
+                                <label className='text-[14px] font-bold 
+                                text-center text-purple-800 ' >CVC</label>
                                 <input
-                                    className='outline-none w-[100px] border-2 p-3 rounded-xl '
-                                    type="number"
+                                    onChange={Generatecvc}
+                                    className='text-center outline-none w-[100px] border-2 p-3 rounded-xl '
+                                    type="text"
                                     placeholder='e.g 123' />
+                                <p id='errorcvc' className='text-red-600 mt-2 text-xs ' ></p>
                             </div>
                         </div>
-                        <div className='bg-verydarkviolet text-white 
-                        flex justify-center w-[300px] p-2 rounded-md  '>
+                        <div>
                             <input
-                                className=''
+                                className='bg-verydarkviolet text-white 
+                                flex justify-center w-[300px] p-2 rounded-md cursor-pointer'
                                 type="submit"
                                 name=""
                                 id=""
                                 value={"Confirm"} />
+                                
                         </div>
+                        <p id='errorForm' className='text-red-600 mt-1 text-center animate-pulse text-xl ' ></p>
                     </form>
                 </section>
             </section>
